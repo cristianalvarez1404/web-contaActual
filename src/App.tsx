@@ -1,16 +1,56 @@
 import './App.css'
-import { Navbar } from './components/Navbar'
-import Footer from './components/Footer'
 import LiquidadorNomina from './pages/LiquidadorNomina'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from './pages/Home';
+import Layout from './utilities/Layout';
+import Triburaria from './pages/triburaria/Triburaria';
+import Nomina from './pages/nomina/Nomina';
+import Costos from './pages/costos/Costos';
+import Otros from './pages/otros/Otros';
+import Contabilidad from './pages/contabilidad/Contabilidad';
+
+const routes = createBrowserRouter([
+  {
+    path:"/",
+    element:<Layout/>,
+    children:[
+      {
+        path:"/",
+        element:<Home/>
+      },
+      {
+        path:"/tributaria",
+        element:<Triburaria/>
+      },
+      {
+        path:"/nomina",
+        element:<Nomina/>
+      },
+      {
+        path:"/contabilidad",
+        element:<Contabilidad/>
+      },
+      {
+        path:"/costos",
+        element:<Costos/>
+      },
+      {
+        path:"/otros",
+        element:<Otros/>
+      },
+      {
+        path:"/liquidadores",
+        element:<LiquidadorNomina/>
+      }    
+    ]
+  },
+  
+])
+
 
 function App() {
   return (
-      <div className=''>
-        <Navbar/>
-        <LiquidadorNomina/>
-        <Footer/>
-      </div>
-
+    <RouterProvider router={routes}/>      
   )
 }
 
