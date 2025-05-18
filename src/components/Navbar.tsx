@@ -8,15 +8,15 @@ export const Navbar = () => {
                 <a href="/" className=''>
                     <img src="./icon.png" alt="" className='w-[50px] y-[50px] '/>
                 </a>
-                <span className='ml-2 text-sm text-gray-400'>Contality-<small>co</small></span>
+                <span className='ml-2 text-sm text-gray-400'>Contax-<small>co</small></span>
             </div>
             <div className='mr-10'>
-                <a href="/tributaria" className='mr-5'>Tributaria</a>
-                <a href="/nomina" className='mr-5'>Nómina</a>
-                <a href="/contabilidad" className='mr-5'>Contabilidad</a>
-                <a href="/costos" className='mr-5'>Costos</a>
-                <a href="/otros" className='mr-5'>Otros</a>
-                <a href="/liquidadores" className='mr-5'>Liquidadores</a>
+                <a href="/tributaria" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Tributaria</a>
+                <a href="/nomina" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Nómina</a>
+                <a href="/contabilidad" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Contabilidad</a>
+                <a href="/costos" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Costos</a>
+                <a href="/otros" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Otros</a>
+                <a href="/liquidadores" className='p-1 mr-5 hover:bg-gray-300 hover:rounded-2xl'>Liquidadores</a>
                 <a href="/" className='cursor-pointer'>
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </a>

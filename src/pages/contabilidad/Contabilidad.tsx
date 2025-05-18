@@ -1,8 +1,9 @@
 import React from 'react'
+import PostByCategory from '../../components/PostByCategory'
 
 const Contabilidad = () => {
   return (
-    <div>Contabilidad</div>
+    <PostByCategory/>
   )
 }
 

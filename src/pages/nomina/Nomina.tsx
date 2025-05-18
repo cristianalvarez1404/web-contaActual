@@ -1,8 +1,9 @@
 import React from 'react'
+import PostByCategory from '../../components/PostByCategory'
 
 const Nomina = () => {
   return (
-    <div>Nomina</div>
+    <PostByCategory/>
   )
 }
 

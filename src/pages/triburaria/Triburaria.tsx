@@ -1,8 +1,9 @@
 import React from 'react'
+import PostByCategory from '../../components/PostByCategory.js'
 
 const Triburaria = () => {
   return (
-    <div>Triburaria</div>
+      <PostByCategory/>
   )
 }
 
