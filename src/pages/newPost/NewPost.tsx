@@ -72,7 +72,7 @@ const NewPost = () => {
           <input
             type="submit"
             value="Crear"
-            className="w-[10rem] bg-blue-900 cursor-pointer text-white px-5 py-2 rounded-2xl"
+            className="w-[10rem] bg-transparent border-2 border-blue-900 cursor-pointer text-blue-900 px-5 py-2 rounded-2xl font-bold hover:bg-blue-900 hover:text-white hover:transition-colors"
           />
         </div>
       </form>
