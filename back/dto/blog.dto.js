@@ -1,23 +1,48 @@
-function createBlogDTO(body) {
-  const { id, title, description, category, date } = body;
+function createArticleDTO(body) {
+  const { title, description, category, date } = body;
 
-  if (!id || !title || !description || !category || !date) {
+  if (!title || !description || !category || !date) {
     throw new Error(`Please check your fields that are empty`);
   }
 
-  const categories = ["tributaria", "nomina", "contabilidad", "otros"];
+  //const categories = ["tributaria", "nomina", "contabilidad", "otros"];
 
-  if (!categories.includes(category)) {
-    throw new Error("Please check your category");
+  // if (!categories.includes(category)) {
+  //   throw new Error("Please check your category");
+  // }
+  if (typeof category !== "number") {
+    return `Category id must be a number`;
   }
 
-  return { id, title, description, category, data };
+  return { title, description, category, date };
 }
 
-function findBlogByIdDTO(id) {
-  // if (!id) throw new Error(`Id does not exist, please asign one`);
-
-  return 1;
+function validateIdDTO(id) {
+  if (!id) throw new Error(`Id does not exist, please assign one`);
+  return id;
 }
 
-export { createBlogDTO, findBlogByIdDTO };
+function updateArticleDTO(body) {
+  const { id, title, description, category, date } = body;
+
+  if (!id) {
+    throw new Error("Id is required to update the article");
+  }
+
+  // const categories = ["tributaria", "nomina", "contabilidad", "otros"];
+  // if (category && !categories.includes(category)) {
+  //   throw new Error("Invalid category");
+  // }
+
+  if (category && typeof category !== "number") {
+    return `Category id must be a number`;
+  }
+
+  if (!title && !description && !date) {
+    throw new Error("At least one field to update must be provided");
+  }
+
+  return { id, title, description, category, date };
+}
+
+export { createArticleDTO, validateIdDTO, updateArticleDTO };

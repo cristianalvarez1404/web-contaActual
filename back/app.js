@@ -1,7 +1,8 @@
+import "dotenv/config";
 import express from "express";
 import { initDB } from "./config/dbInit.js";
 import { execSync } from "child_process";
-import { router } from "./routes/blog.route.js";
+import { router } from "./routes/blog.routes.js";
 
 const app = express();
 app.use(express.json());
