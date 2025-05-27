@@ -37,7 +37,7 @@ const findArticlesDAO = async () => {
     const articles = await db.query(`
         SELECT a.id,a.title,a.description,a.date,c.category  FROM articles AS a
         INNER JOIN categories AS c
-        ON a.category_id = c.id;`);
+        ON a.category_id = c.id ORDER BY a.date DESC;`);
 
     return articles.rows;
   } catch (err) {

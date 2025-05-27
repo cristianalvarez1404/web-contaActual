@@ -38,7 +38,7 @@ export async function initDB() {
 
     await db.query(`
       INSERT INTO categories (category) VALUES 
-      ('triburaria'),
+      ('tributaria'),
       ('nomina'),
       ('contabilidad'),
       ('otros'),

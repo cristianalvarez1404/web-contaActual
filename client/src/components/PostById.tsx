@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { mainPosts } from "../utilities/mainPost.js";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const PostById = () => {
+  const [post, setPost] = useState([]);
+  const [error, setError] = useState("");
+  const [lastPosts, setLastPosts] = useState([]);
   const location = useLocation();
   const typePage = location.pathname.split("/")[1];
   const postsId = location.pathname.split("/")[2];
-  const post = mainPosts.find(
-    (post: any) => post.type === typePage && post.id == postsId
-  );
 
-  const lastPosts = mainPosts.slice(-5);
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const req = await axios.get(`http://localhost:3000/${postsId}`);
+        setPost(req.data);
+      } catch (err: any) {
+        setError(err.message || "Request failed 😢");
+      }
+    };
+    getPost();
+  }, []);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const req = await axios.get(`http://localhost:3000`);
+      console.log(req.data);
+      const postFiltered = req.data.filter(
+        (post: any) => post.category === typePage && post.id == Number(postsId)
+      );
+      const lastPosts = postFiltered.slice(-5);
+      setLastPosts(lastPosts);
+    };
+    getPosts();
+  }, []);
+
   return (
     <div className="w-[95%] min-h-[calc(100vh-100px)] m-auto flex gap-5 relative">
       <div className="flex-4">
@@ -19,7 +44,7 @@ const PostById = () => {
           <div className="flex-1">
             <img
               className="w-[400px] h-[400px] object-cover rounded-2xl"
-              src={`../../${post.image}`}
+              src={`../../tributaria/1.png`}
               alt=""
             />
           </div>
@@ -28,7 +53,10 @@ const PostById = () => {
               {post.description}
             </p>
             <small className="text-[10px] font-medium">
-              Fecha de publicación: {post.date}
+              Fecha de publicación:{" "}
+              {post.date
+                ? new Date(post.date).toLocaleDateString("es-CO")
+                : Date.now()}
             </small>
           </div>
         </div>
