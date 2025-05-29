@@ -1,0 +1,13 @@
+GET http://localhost:3000/
+
+###
+
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+  "title":"prueba",
+  "description":"prubea des",
+  "category":1,
+  "date":"2025-05-29"
+}

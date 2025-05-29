@@ -42,7 +42,8 @@ export async function initDB() {
       ('nomina'),
       ('contabilidad'),
       ('otros'),
-      ('liquidadores')
+      ('liquidadores'),
+      ('costos')
       ON CONFLICT (category) DO NOTHING;
     `);
 
