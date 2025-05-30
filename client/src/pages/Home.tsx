@@ -7,6 +7,11 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
 
+  const handleDeleteFromList = (id: number | string) => {
+    const idPost = Number(id);
+    setPosts((prev) => prev.filter((post) => post.id !== idPost));
+  };
+
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -34,7 +39,9 @@ const Home = () => {
           <Post key={post.id} info={post} />
         ))} */}
         {posts ? (
-          posts.map((post: any) => <Post key={post.id} info={post} />)
+          posts.map((post: any) => (
+            <Post key={post.id} info={post} onDelete={handleDeleteFromList} />
+          ))
         ) : (
           <div>There're not post yet 😔</div>
         )}

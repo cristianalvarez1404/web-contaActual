@@ -10,6 +10,7 @@ import Otros from "./pages/otros/Otros";
 import Contabilidad from "./pages/contabilidad/Contabilidad";
 import PostById from "./components/PostById";
 import NewPost from "./pages/newPost/NewPost";
+import UpdatePost from "./pages/updatePost/UpdatePost";
 
 const routes = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const routes = createBrowserRouter([
       {
         path: "/newPost",
         element: <NewPost />,
+      },
+      {
+        path: "/updatePost/:id",
+        element: <UpdatePost />,
       },
     ],
   },

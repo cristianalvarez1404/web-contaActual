@@ -46,7 +46,8 @@ const findArticlesDAO = async () => {
 };
 
 const updateArticleDAO = async (body) => {
-  const { id, ...fieldToUpdate } = body;
+  const { id, category: category_id, ...fieldsObj } = body;
+  const fieldToUpdate = { category_id, ...fieldsObj };
 
   if (!id) {
     throw new Error("ID is required");
