@@ -6,6 +6,7 @@ import {
   findArticlesController,
   updateArticleController,
 } from "../controllers/blog.controller.js";
+import { upload } from "../utilities/uploadImages.js";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get("/", findArticlesController);
 router.get("/:id", findArticleByIdController);
 
 //CREATE ARTICLE
-router.post("/", createArticleController);
+router.post("/", upload.single("image"), createArticleController);
 
 //UPDATE ARTICLE
 router.put("/:id", updateArticleController);

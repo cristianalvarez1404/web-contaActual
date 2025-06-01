@@ -1,18 +1,39 @@
 import { db } from "../config/dbConnection.js";
 
 const createArticleDAO = async (body) => {
-  console.log(body);
-  const { title, description, category, date } = body;
+  const { title, description, category, date, file } = body;
+
   try {
-    const query = await db.query(
+    const articleQuery = await db.query(
       `
-      INSERT INTO articles (title,description,category_id,date) VALUES
-      ($1,$2,$3,$4) RETURNING *  
-    `,
+      INSERT INTO articles (title, description, category_id, date)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `,
       [title, description, category, date]
     );
 
-    return query.rows[0];
+    const article = articleQuery.rows[0];
+    let image = null;
+
+    if (file) {
+      const imageQuery = await db.query(
+        `
+        INSERT INTO images (image, article_id)
+        VALUES ($1, $2)
+        RETURNING *
+        `,
+        [file, article.id]
+      );
+      image = imageQuery.rows[0];
+    }
+
+    return [
+      {
+        article,
+        image,
+      },
+    ];
   } catch (err) {
     throw new Error(`Error creating article: ${err}`);
   }

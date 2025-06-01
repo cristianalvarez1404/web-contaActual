@@ -14,7 +14,7 @@ import { HTTP_STATUS } from "../utilities/constants.js";
 
 const createArticleController = async (req, res) => {
   try {
-    const infoDTO = createArticleDTO(req.body);
+    const infoDTO = createArticleDTO(req.body, req.file.buffer);
     const createArticle = await createArticleService(infoDTO);
 
     return res.status(HTTP_STATUS.CREATED).json(createArticle);

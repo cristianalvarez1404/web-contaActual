@@ -16,11 +16,21 @@ export async function initDB() {
           description TEXT NOT NULL,
           date DATE NOT NULL,
           category_id INT NOT NULL,
-          CONSTRAINT fk_articles
+          CONSTRAINT fk_articles_category
             FOREIGN KEY(category_id)
             REFERENCES categories(id)
             ON DELETE CASCADE
-          );
+    `);
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS images(
+        id SERIAL PRIMARY KEY,
+        image BYTEA,
+        article_id INT NOT NULL,
+        CONSTRAINT fk_images_article FOREIGN KEY (article_id)
+          REFERENCES articles(id)
+          ON DELETE CASCADE
+      );
     `);
 
     await db.query(`

@@ -1,4 +1,4 @@
-function createArticleDTO(body) {
+function createArticleDTO(body, file) {
   const { title, description, category, date } = body;
 
   if (!title || !description || !category || !date) {
@@ -11,10 +11,16 @@ function createArticleDTO(body) {
   //   throw new Error("Please check your category");
   // }
   if (typeof category !== "number") {
-    return `Category id must be a number`;
+    throw new Error(`Category id must be a number`);
   }
 
-  return { title, description, category, date };
+  const article = { title, description, category, date };
+
+  if (file) {
+    article.file = file;
+  }
+
+  return article;
 }
 
 function validateIdDTO(id) {
