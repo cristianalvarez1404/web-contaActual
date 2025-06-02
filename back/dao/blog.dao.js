@@ -42,9 +42,22 @@ const createArticleDAO = async (body) => {
 const findArticleByIdDAO = async (id) => {
   try {
     const article = await db.query(
-      `SELECT a.id,a.title,a.description,a.date,c.category  FROM articles AS a
-        INNER JOIN categories AS c
-        ON a.category_id = c.id WHERE a.id = $1;`,
+      ` SELECT 
+        a.id,
+        a.title,
+        a.description,
+        a.date,
+        c.category,
+        array_agg(i.image) AS images
+      FROM articles AS a
+      LEFT JOIN categories AS c
+      ON a.category_id = c.id
+      LEFT JOIN images AS i
+      ON a.id = i.article_id
+      WHERE a.id = ($1)
+	    GROUP BY a.id, a.title, a.description, a.date, c.category
+      ORDER BY a.date DESC;
+        `,
       [id]
     );
     return article.rows[0];
@@ -56,9 +69,21 @@ const findArticleByIdDAO = async (id) => {
 const findArticlesDAO = async () => {
   try {
     const articles = await db.query(`
-        SELECT a.id,a.title,a.description,a.date,c.category  FROM articles AS a
-        INNER JOIN categories AS c
-        ON a.category_id = c.id ORDER BY a.date DESC;`);
+      SELECT 
+        a.id,
+        a.title,
+        a.description,
+        a.date,
+        c.category,
+        array_agg(i.image) AS images
+      FROM articles AS a
+      LEFT JOIN categories AS c
+      ON a.category_id = c.id
+      LEFT JOIN images AS i
+      ON a.id = i.article_id
+	    GROUP BY a.id, a.title, a.description, a.date, c.category
+      ORDER BY a.date DESC;
+    `);
 
     return articles.rows;
   } catch (err) {

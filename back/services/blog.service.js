@@ -8,7 +8,13 @@ import {
 
 const createArticleService = async (bodyDTO) => {
   try {
-    const newArticle = await createArticleDAO(bodyDTO);
+    const { category, ...infoArticle } = bodyDTO;
+    const info = {
+      category: Number(category),
+      ...infoArticle,
+    };
+
+    const newArticle = await createArticleDAO(info);
     return newArticle;
   } catch (error) {
     throw new Error(error);

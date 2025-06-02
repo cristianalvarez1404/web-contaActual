@@ -10,9 +10,9 @@ function createArticleDTO(body, file) {
   // if (!categories.includes(category)) {
   //   throw new Error("Please check your category");
   // }
-  if (typeof category !== "number") {
-    throw new Error(`Category id must be a number`);
-  }
+  // if (typeof category !== "number") {
+  //   throw new Error(`Category id must be a number`);
+  // }
 
   const article = { title, description, category, date };
 
