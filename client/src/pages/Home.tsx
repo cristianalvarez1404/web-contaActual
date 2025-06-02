@@ -1,4 +1,5 @@
-import { mainPosts } from "../utilities/mainPost.js";
+// import { mainPosts } from "../utilities/mainPosts.js";
+import { convertToBlob } from "../utilities/convertToBlob.js";
 import Post from "../components/Post";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,15 +14,25 @@ const Home = () => {
   };
 
   useEffect(() => {
+    let urls: string[] = [];
+
     const getPosts = async () => {
       try {
         const req = await axios.get("http://localhost:3000");
-        setPosts(req.data);
+
+        const data = convertToBlob(req.data);
+        console.log(data);
+        setPosts(data);
       } catch (err: any) {
         setError(err.message || "Request failed 😢");
       }
     };
+
     getPosts();
+
+    return () => {
+      urls.forEach((url) => URL.revokeObjectURL(url)); // limpiamos al desmontar
+    };
   }, []);
 
   return (

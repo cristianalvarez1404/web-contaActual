@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mainPosts } from "../utilities/mainPost.js";
+import { convertToBlob } from "../utilities/convertToBlob.js";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -15,7 +16,8 @@ const PostById = () => {
     const getPost = async () => {
       try {
         const req = await axios.get(`http://localhost:3000/${postsId}`);
-        setPost(req.data);
+        const data = convertToBlob(Array(req.data));
+        setPost(data[0]);
       } catch (err: any) {
         setError(err.message || "Request failed 😢");
       }
@@ -26,7 +28,7 @@ const PostById = () => {
   useEffect(() => {
     const getPosts = async () => {
       const req = await axios.get(`http://localhost:3000`);
-      console.log(req.data);
+
       const postFiltered = req.data.filter(
         (post: any) => post.category === typePage && post.id == Number(postsId)
       );
@@ -44,7 +46,7 @@ const PostById = () => {
           <div className="flex-1">
             <img
               className="w-[400px] h-[400px] object-cover rounded-2xl"
-              src={`../../tributaria/1.png`}
+              src={post.image || "../../tributaria/1.png"}
               alt=""
             />
           </div>

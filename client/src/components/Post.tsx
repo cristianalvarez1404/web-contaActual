@@ -85,7 +85,7 @@ const Post = ({ info, onDelete }: infoObj) => {
       </div>
       <div className="flex-1 ">
         <img
-          src={"./tributaria/1.png"}
+          src={info.image || "./tributaria/1.png"}
           alt=""
           className="rounded-2xl object-cover w-full h-[200px]"
         />

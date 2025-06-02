@@ -3,75 +3,82 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
-  
-  const [message,setMessage] = useState("")
-  const [error,setError] = useState("")
-  const navigate = useNavigate()
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleFormPost = async (e:any) => {
-    e.preventDefault()
-    const form = new FormData(e.target)
-    
-    const newArticle:any = {}
+  const handleFormPost = async (e: any) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
 
-    if (!form.get('title') || !form.get('description') || !form.get('date')) {
+    const newArticle: any = {};
+
+    if (!form.get("title") || !form.get("description") || !form.get("date")) {
       setError("Todos los campos obligatorios deben estar llenos");
       setTimeout(() => {
-        setError("")
-      },5000)
+        setError("");
+      }, 5000);
       return;
     }
 
-    for(const [key,value] of form.entries()){
-      (key === "category") 
-      ?
-        newArticle[key] = Number(value)
-      :
-        newArticle[key] = value
+    for (const [key, value] of form.entries()) {
+      key === "category"
+        ? (newArticle[key] = Number(value))
+        : (newArticle[key] = value);
     }
 
     try {
-      const req = await axios.post('http://localhost:3000/',newArticle)
-      if(req.status >= 200 && req.status < 300){
-        setMessage(`Article created succefully 🎉🥳`)
+      const req = await axios.post("http://localhost:3000/", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (req.status >= 200 && req.status < 300) {
+        setMessage(`Article created succefully 🎉🥳`);
         setTimeout(() => {
-          setMessage("")
-          navigate("/")
-        },4000)
-      }else {
-        throw new Error(`Error creating article ${newArticle.title} - Error - ${req.status}`)
+          setMessage("");
+          navigate("/");
+        }, 4000);
+      } else {
+        throw new Error(
+          `Error creating article ${newArticle.title} - Error - ${req.status}`
+        );
       }
-
-    }catch(err){
-      console.log(err)
-      if(err instanceof Error) {
-        setError(err.message)
+    } catch (err) {
+      console.log(err);
+      if (err instanceof Error) {
+        setError(err.message);
         setTimeout(() => {
-          setError("")
-        },5000)
-      }
-      else if(typeof err === "string" ){
-        setError(err)
+          setError("");
+        }, 5000);
+      } else if (typeof err === "string") {
+        setError(err);
         setTimeout(() => {
-          setError("")
-        },5000)
-      }else {
-        setError("Error in request 😢")
+          setError("");
+        }, 5000);
+      } else {
+        setError("Error in request 😢");
         setTimeout(() => {
-          setError("")
-        },5000)
+          setError("");
+        }, 5000);
       }
     }
-  }
-
-
+  };
 
   return (
     <div className="min-h-[calc(100vh-100px)] w-[85%] m-auto">
-      {error && <p className="w-fit p-2 mt-5 m-auto rounded-2xl bg-red-500 text-white">{error}</p> }
-      {message && <p className="w-fit p-2 mt-5 m-auto rounded-2xl bg-green-700 text-white">{message}</p>}
+      {error && (
+        <p className="w-fit p-2 mt-5 m-auto rounded-2xl bg-red-500 text-white">
+          {error}
+        </p>
+      )}
+      {message && (
+        <p className="w-fit p-2 mt-5 m-auto rounded-2xl bg-green-700 text-white">
+          {message}
+        </p>
+      )}
       <h2 className="text-3xl mt-5 mb-5">Crear post</h2>
-      <form onSubmit={handleFormPost}>
+      <form onSubmit={handleFormPost} encType="multipart/form-data">
         <div className="mb-5">
           <label
             htmlFor=""
@@ -111,6 +118,7 @@ const NewPost = () => {
             type="file"
             accept="image/*"
             className="border bg-blue-950 text-white p-2 rounded-2xl text-sm cursor-pointer"
+            name="image"
           />
         </div>
         <div className="mb-5">
@@ -135,7 +143,7 @@ const NewPost = () => {
           >
             Fecha del post
           </label>
-          <input className="ml-2" type="date" name="date"/>
+          <input className="ml-2" type="date" name="date" />
           {/* <span>{new Date().toLocaleDateString()}</span> */}
         </div>
         <div className="mb-10 flex items-center justify-center">
@@ -145,7 +153,6 @@ const NewPost = () => {
             className="w-[10rem] bg-transparent border-2 border-blue-900 cursor-pointer text-blue-900 px-5 py-2 rounded-2xl font-bold hover:bg-blue-900 hover:text-white hover:transition-colors"
           />
         </div>
-        
       </form>
     </div>
   );

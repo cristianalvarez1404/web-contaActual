@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mainPosts } from "../utilities/mainPost.js";
+import { convertToBlob } from "../utilities/convertToBlob.js";
 import Post from "../components/Post.tsx";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -17,7 +18,9 @@ const PostByCategory = () => {
         const postsFiltered = req.data.filter(
           (post: any) => post.category === typePage
         );
-        setPosts(postsFiltered);
+        const data = convertToBlob(postsFiltered);
+
+        setPosts(data);
       } catch (err: any) {
         setError(err.message || "Request failed 😢");
       }
