@@ -41,7 +41,13 @@ const findArticlesService = async () => {
 
 const updateArticleService = async (bodyDTO) => {
   try {
-    const articleUpdated = await updateArticleDAO(bodyDTO);
+    const { category, ...infoArticle } = bodyDTO;
+    const info = {
+      category: Number(category),
+      ...infoArticle,
+    };
+
+    const articleUpdated = await updateArticleDAO(info);
     return articleUpdated;
   } catch (error) {
     throw new Error(error);

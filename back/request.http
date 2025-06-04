@@ -17,8 +17,10 @@ PUT  http://localhost:3000/16
 Content-Type: application/json
 
 {
+  "id":26,
   "title":"cristian",
   "description":"cristian des",
   "category":1,
-  "date":"2025-05-29"
+  "date":"2025-05-29",
+  "image":""
 }

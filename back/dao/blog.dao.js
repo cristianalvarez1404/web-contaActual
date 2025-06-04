@@ -92,7 +92,7 @@ const findArticlesDAO = async () => {
 };
 
 const updateArticleDAO = async (body) => {
-  const { id, category: category_id, ...fieldsObj } = body;
+  const { id, category: category_id, file, ...fieldsObj } = body;
   const fieldToUpdate = { category_id, ...fieldsObj };
 
   if (!id) {
@@ -128,7 +128,25 @@ const updateArticleDAO = async (body) => {
       values
     );
 
-    return updateArticle.rows[0];
+    const article = updateArticle.rows[0];
+    let image = null;
+
+    if (file) {
+      const imageQuery = await db.query(
+        `
+        UPDATE images SET image = $1
+        WHERE article_id = $2
+        RETURNING *
+        `,
+        [file, article.id]
+      );
+      image = imageQuery.rows[0];
+    }
+
+    return {
+      article,
+      image,
+    };
   } catch (err) {
     throw new Error(`Error updating article with id ${id} : ${err}`);
   }

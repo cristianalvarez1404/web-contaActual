@@ -26,7 +26,8 @@ const createArticleController = async (req, res) => {
 const updateArticleController = async (req, res) => {
   try {
     const data = { id: req.params.id, ...req.body };
-    const infoDTO = updateArticleDTO(data);
+    const infoDTO = updateArticleDTO(data, req.file ? req.file.buffer : false);
+
     const updateArticle = await updateArticleService(infoDTO);
 
     if (!updateArticle) {

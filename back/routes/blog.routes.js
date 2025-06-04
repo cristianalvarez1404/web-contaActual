@@ -20,7 +20,7 @@ router.get("/:id", findArticleByIdController);
 router.post("/", upload.single("image"), createArticleController);
 
 //UPDATE ARTICLE
-router.put("/:id", updateArticleController);
+router.put("/:id", upload.single("image"), updateArticleController);
 
 //DELETE ARTICLE
 router.delete("/:id", deleteArticleController);

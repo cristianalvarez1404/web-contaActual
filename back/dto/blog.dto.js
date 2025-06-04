@@ -28,7 +28,7 @@ function validateIdDTO(id) {
   return id;
 }
 
-function updateArticleDTO(body) {
+function updateArticleDTO(body, file) {
   const { id, title, description, category, date } = body;
 
   if (!id) {
@@ -40,15 +40,21 @@ function updateArticleDTO(body) {
   //   throw new Error("Invalid category");
   // }
 
-  if (category && typeof category !== "number") {
-    return `Category id must be a number`;
-  }
+  // if (category && typeof category !== "number") {
+  //   return `Category id must be a number`;
+  // }
+
+  const article = { id, title, description, category, date };
 
   if (!title && !description && !date) {
     throw new Error("At least one field to update must be provided");
   }
 
-  return { id, title, description, category, date };
+  if (file) {
+    article.file = file;
+  }
+
+  return article;
 }
 
 export { createArticleDTO, validateIdDTO, updateArticleDTO };

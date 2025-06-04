@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { convertToBlob } from "../../utilities/convertToBlob.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const UpdatePost = () => {
@@ -23,6 +24,7 @@ const UpdatePost = () => {
 
   const handleFormPost = async (e: any) => {
     e.preventDefault();
+
     const form = new FormData(e.target);
 
     const newArticle: any = {};
@@ -40,10 +42,19 @@ const UpdatePost = () => {
         ? (newArticle[key] = Number(value))
         : (newArticle[key] = value);
     }
-    console.log("hola");
-    console.log(newArticle);
+
     try {
-      const req = await axios.put(`http://localhost:3000/${id}`, newArticle);
+      const image = form.get("image");
+
+      if (image instanceof File && image.size === 0) {
+        form.delete("image");
+      }
+
+      const req = await axios.put(`http://localhost:3000/${id}`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (req.status >= 200 && req.status < 300) {
         setMessage(`Article has been updated succefully 🎉🥳`);
         setTimeout(() => {
@@ -77,15 +88,15 @@ const UpdatePost = () => {
   };
 
   useEffect(() => {
-    const article = async () => {
+    const getArticle = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/${id}`);
-        setArticle(res.data);
+        setArticle((prev) => ({ ...prev, ...res.data }));
       } catch (err) {
         console.log(err);
       }
     };
-    article();
+    getArticle();
   }, []);
 
   return (
@@ -145,6 +156,7 @@ const UpdatePost = () => {
             type="file"
             accept="image/*"
             className="border bg-blue-950 text-white p-2 rounded-2xl text-sm cursor-pointer"
+            name="image"
           />
         </div>
         <div className="mb-5">
@@ -185,7 +197,6 @@ const UpdatePost = () => {
             }
             onChange={handleChange}
           />
-          {/* <span>{new Date().toLocaleDateString()}</span> */}
         </div>
         <div className="mb-10 flex items-center justify-center">
           <input
