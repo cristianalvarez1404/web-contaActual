@@ -1,12 +1,16 @@
-import React from 'react'
-import FormNom from '../components/Liquidadores/FormNom'
+import React from "react";
+import FormNom from "../components/Liquidadores/FormNom";
+import FormLiquidacion from "../components/Liquidadores/FormLiquidacion";
 
 const LiquidadorNomina = () => {
   return (
-    <div className='h-screen w-full'>
-      <FormNom/>
+    <div className="w-full">
+      <FormNom />
+      <br />
+      <hr />
+      <FormLiquidacion />
     </div>
-  )
-}
+  );
+};
 
-export default LiquidadorNomina
+export default LiquidadorNomina;
