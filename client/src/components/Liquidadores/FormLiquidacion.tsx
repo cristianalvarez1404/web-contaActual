@@ -79,17 +79,23 @@ const FormLiquidacion = () => {
       });
       setTotalLiquidacion();
     }
-  }, [fechaInicial, fechaFinal]);
+  }, [
+    salario,
+    auxilioTransporte,
+    vacacionesDisfrutadas,
+    fechaInicial,
+    fechaFinal,
+  ]);
 
-  useEffect(() => {
-    console.log(salario);
-    console.log("Días para prestaciones:", diasPrestaciones);
-    console.log("Días para vacaciones:", diasVacaciones);
-    console.log("Total para cesantias:", valorCesantias);
-    console.log("Total para interes:", valorIntereses);
-    console.log("Total para prima:", valorPrima);
-    console.log("Total para vacaciones:", valorVacaciones);
-  }, [diasPrestaciones]);
+  // useEffect(() => {
+  //   console.log(salario);
+  //   console.log("Días para prestaciones:", diasPrestaciones);
+  //   console.log("Días para vacaciones:", diasVacaciones);
+  //   console.log("Total para cesantias:", valorCesantias);
+  //   console.log("Total para interes:", valorIntereses);
+  //   console.log("Total para prima:", valorPrima);
+  //   console.log("Total para vacaciones:", valorVacaciones);
+  // }, [diasPrestaciones]);
 
   const convertToPeso = (valor: any) => {
     const formatoCOP = new Intl.NumberFormat("es-CO", {
@@ -149,6 +155,34 @@ const FormLiquidacion = () => {
           </div>
           <div className="p-2 flex flex-col">
             <label htmlFor="" className="mb-2">
+              Salario mensual:
+            </label>
+            <input
+              type="number"
+              id=""
+              min={0}
+              defaultValue={0}
+              value={salario}
+              className="border border-gray-400 p-2 rounded-xl"
+              onChange={(e) => setSalario(e.target.value)}
+            />
+          </div>
+          <div className="p-2 flex flex-col">
+            <label htmlFor="" className="mb-2">
+              Auxilio de transporte mensual:
+            </label>
+            <input
+              type="number"
+              id=""
+              min={0}
+              defaultValue={0}
+              value={auxilioTransporte}
+              className="border border-gray-400 p-2 rounded-xl"
+              onChange={(e) => setAuxilioTransporte(e.target.value)}
+            />
+          </div>
+          <div className="p-2 flex flex-col">
+            <label htmlFor="" className="mb-2">
               Fecha inicio
             </label>
             <input
@@ -181,34 +215,6 @@ const FormLiquidacion = () => {
               value={vacacionesDisfrutadas}
               className="border border-gray-400 p-2 rounded-xl"
               onChange={(e) => setVacacionesDisfrutadas(e.target.value)}
-            />
-          </div>
-          <div className="p-2 flex flex-col">
-            <label htmlFor="" className="mb-2">
-              Salario mensual:
-            </label>
-            <input
-              type="number"
-              id=""
-              min={0}
-              defaultValue={0}
-              value={salario}
-              className="border border-gray-400 p-2 rounded-xl"
-              onChange={(e) => setSalario(e.target.value)}
-            />
-          </div>
-          <div className="p-2 flex flex-col">
-            <label htmlFor="" className="mb-2">
-              Auxilio de transporte mensual:
-            </label>
-            <input
-              type="number"
-              id=""
-              min={0}
-              defaultValue={0}
-              value={auxilioTransporte}
-              className="border border-gray-400 p-2 rounded-xl"
-              onChange={(e) => setAuxilioTransporte(e.target.value)}
             />
           </div>
         </div>

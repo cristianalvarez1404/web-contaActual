@@ -17,20 +17,71 @@ export const useStore = create((set) => ({
     set(() => ({ auxilioTransporte: Number(valorAuxilio) })),
 
   setFechaInicial: (fecha: any) =>
-    set(() => ({ fechaInicial: new Date(fecha) })),
+    set(() => {
+      const [year, month, day] = fecha.split("-").map(Number);
+      return {
+        fechaInicial: new Date(year, month - 1, day),
+      };
+    }),
 
-  setFechaFinal: (fecha: any) => set(() => ({ fechaFinal: new Date(fecha) })),
+  setFechaFinal: (fecha: any) =>
+    set(() => {
+      const [year, month, day] = fecha.split("-").map(Number);
+      return {
+        fechaFinal: new Date(year, month - 1, day),
+      };
+    }),
 
   setDiasTotales: () =>
     set((state: any) => {
-      console.log(state);
       const diferencia =
         state.fechaFinal && state.fechaInicial
           ? state.fechaFinal.getTime() - state.fechaInicial.getTime()
           : 0;
       const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24)) + 1;
+
+      const mesInicial = Number(state.fechaInicial.getMonth() + 1);
+      const mesFinal = Number(state.fechaFinal.getMonth() + 1);
+      const diaInicial = Number(state.fechaInicial.getDate());
+      const diaFinal = Number(state.fechaFinal.getDate());
+
+      const mesesIrregulares: any = {
+        1: -1, // Enero - 31 días
+        2: 3, // Febrero - 28 días
+        3: -1, // Marzo - 31 días
+        4: 0, // Abril - 30 días
+        5: -1, // Mayo - 31 días
+        6: 0, // Junio - 30 días
+        7: -1, // Julio - 31 días
+        8: -1, // Agosto - 31 días
+        9: 0, // Septiembre - 30 días
+        10: -1, // Octubre - 31 días
+        11: 0, // Noviembre - 30 días
+        12: -1, // Diciembre - 31 días
+      };
+
+      let diasARestar = 0;
+
+      for (const i in mesesIrregulares) {
+        // console.log(diaFinal);
+        // console.log(typeof diaFinal);
+        if (Number(i) < mesFinal) {
+          diasARestar += mesesIrregulares[i];
+        }
+
+        if (diaFinal === 31 && Number(i) === mesFinal) {
+          diasARestar += -1;
+        }
+
+        if (diaFinal === 28 && Number(i) === mesFinal) {
+          console.log("Estoy aqui");
+          diasARestar += 3;
+        }
+      }
+      console.log(diasARestar);
+
       return {
-        totalDias: dias,
+        totalDias: dias + diasARestar,
       };
     }),
 }));
